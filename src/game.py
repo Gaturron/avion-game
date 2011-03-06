@@ -35,9 +35,11 @@ class World(DirectObject):
         mydir = os.path.dirname(sys.path[0])
         mydir = Filename.fromOsSpecific(mydir).getFullpath()
         mydir = mydir + "/models/scifi fighter/alice-scifi--fighter/fighter.egg"
-        self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir)    
+        
+        self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir, 1)    
         self.aircraft1.setAngleH(0)
-        self.aircraft2 = aircraft("fighter2", [0, 10, 20], [0.05, 0.05, 0.05], mydir)    
+        
+        self.aircraft2 = aircraft("fighter2", [0, 5, 20], [0.05, 0.05, 0.05], mydir, 0)    
         self.aircraft2.setAngleH(180)#0
         
         #load camera

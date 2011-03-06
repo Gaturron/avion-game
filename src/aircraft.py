@@ -36,40 +36,31 @@ class aircraft:
     
     fall = 0
     
-    def __init__(self, name, pos, scale, skin):
+    def __init__(self, name, pos, scale, skin, c):
         self.name = name
         self.skin = skin
         self.model = loader.loadModel(skin)
         self.model.setScale(scale[0], scale[1], scale[2])
         self.model.setPos(pos[0], pos[1], pos[2])
         self.model.reparentTo(render)
+        self.model.clearTexture()
         
         self.myTexture = loader.loadTexture("White_a.png")
         self.myTexture.setWrapU(Texture.WMBorderColor)
         self.myTexture.setWrapV(Texture.WMBorderColor)
-        self.ts = TextureStage('ts')
-        self.ts.setMode(TextureStage.MBlend)
-        self.ts.setColor(Vec4(1, 1, 1, 0))
-        self.model.setTexture(self.ts,self.myTexture)
         
-        taskMgr.add(self.turbine,"turbine"+name)
-    
-    def turbine(self, task):
-        a = math.trunc(task.time)
-        self.myTexture = loader.loadTexture("White_a.png")
-        self.myTexture.setWrapU(Texture.WMBorderColor)
-        self.myTexture.setWrapV(Texture.WMBorderColor)
-        self.ts = TextureStage('ts')
-        self.ts.setMode(TextureStage.MBlend)
-        if (a % 2 == 0):
-            self.ts.setColor(Vec4(0, 0, 1, 0))
-            print ("a")
-        if (a % 2 == 1):
-            self.ts.setColor(Vec4(1, 0, 0, 0))
-            print ("b")
-        self.model.clearTexture() 
-        self.model.setTexture(self.ts,self.myTexture)
-        return task.cont
+        ts = TextureStage('ts-'+str(self.name))
+        ts.setMode(TextureStage.MBlend)
+        
+        vec = Vec4(c, 1-c, c, 1)
+        
+        ts.setColor(vec)
+        print str(vec)
+        print "real color: "+str(ts.getColor())
+        print "pepe: "+ts.getName()
+        
+        #TODO: fixme same texture for both aircrafts 
+        self.model.setTexture(ts, self.myTexture)
         
     def move_left(self):
         self.incAngleH()
