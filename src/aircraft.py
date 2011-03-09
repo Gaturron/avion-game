@@ -23,8 +23,6 @@ delta_angleV = 2
 range_speed = 2
 delta_speed = 0.8
 
-delta_power = 10
-
 class aircraft:
     "class modeling the aircraft"
 
@@ -138,8 +136,8 @@ class aircraft:
     def getSpeed(self):
         return self.speed
              
-    def decPower(self):
-        self.power = self.power - delta_power
+    def decPower(self, val):
+        self.power = self.power - val
     
         #check if it is destroyed
         if(self.power < 0):

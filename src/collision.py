@@ -63,8 +63,6 @@ class collision():
         self.Queue2 = CollisionHandlerQueue()
         base.cTrav.addCollider(self.cnodePath2, self.Queue2)
         self.Queue.append(self.Queue2)
-
-        
                 
         if(self.debug): base.cTrav.showCollisions(render)
                 

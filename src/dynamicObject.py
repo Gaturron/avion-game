@@ -19,6 +19,7 @@ from direct.showbase.DirectObject import DirectObject
 import sys
 from collision import *
 from bullet import *
+from bomb import *
 from particles import *
 from lights import *
 
@@ -55,12 +56,28 @@ class dynamicObject:
         li = lights(x, y, z)
         taskMgr.add(li.lightShot, "lightShot")
         
-    def createBomb(self):
-        pass
+    def createBomb(self, model, hpr, target):
+        self.bomb = bomb(model, hpr)
+        self.bomb.activate(target)
+        self.collision.addCollisionToBullet(self.bomb)
+    
+        self.bombs.append(self.bomb)
+        self.bullets.append(self.bomb)
+        
+        #light
+        x = model.getX()
+        y = model.getY()
+        z = model.getZ()
+        
+        li = lights(x, y, z)
+        taskMgr.add(li.lightShot, "lightShot")
     
     def move(self):
         for bullet in self.bullets:
             bullet.move() 
+            
+        for bomb in self.bombs:
+            bomb.move()
             
         #aircraft which collide with map must be deleted
         #collision queue
@@ -106,6 +123,8 @@ class dynamicObject:
                 x = bullet.getModel().getX()
                 y = bullet.getModel().getY()
                 z = bullet.getModel().getZ()
+                
+                val = bullet.getDamage()
                                 
                 #collision queue
                 queue = self.collision.getCollisionsFromBullet(bullet)
@@ -117,14 +136,14 @@ class dynamicObject:
                         part = particles(x, y, z)
                         taskMgr.add(part.particleSmoke,"parSmoke")
                         
-                        self.aircraft1.decPower()
+                        self.aircraft1.decPower(val)
                         self.aircraft1.shake()
                         
                     if(entry.getIntoNodePath().getName() == "cnode2"):
                         part = particles(x, y, z)
                         taskMgr.add(part.particleSmoke,"parSmoke")
                         
-                        self.aircraft2.decPower()
+                        self.aircraft2.decPower(val)
                         self.aircraft2.shake()
                         
                     #collision with invesion
@@ -136,7 +155,10 @@ class dynamicObject:
                         part = particles(x, y, z)
                         taskMgr.add(part.particleDust,"parDust")
                         
-                    #print "entry"+" "+entry.getIntoNodePath().getName()
+                    #collision with bullet
+                    if(entry.getIntoNodePath().getName() == "cnodeT"):
+                        part = particles(x, y, z)
+                        taskMgr.add(part.particleSmoke,"parSmoke")
                                 
                 bullet.delete()
                                 

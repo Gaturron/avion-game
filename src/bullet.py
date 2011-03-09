@@ -8,7 +8,7 @@ from pandac.PandaModules import *
 from direct.actor import Actor
 import os, sys
 
-damage = 4
+damage = 5
 speed = 30
 scale=[0.01,0.01,0.01]
 
@@ -41,6 +41,9 @@ class bullet:
         
     def move(self):
         self.model.setPos(self.model,0,speed, 0)
+        
+    def getDamage(self):
+        return damage
         
 if(__name__ == "__main__"):
     print bullet.__doc__

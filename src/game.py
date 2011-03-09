@@ -5,7 +5,7 @@ from direct.actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.showbase.DirectObject import DirectObject
 
-import os, sys, math
+import os, sys
 
 from aircraft import *
 from map import *
@@ -39,7 +39,7 @@ class World(DirectObject):
         self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir, 1)    
         self.aircraft1.setAngleH(0)
         
-        self.aircraft2 = aircraft("fighter2", [0, 5, 20], [0.05, 0.05, 0.05], mydir, 0)    
+        self.aircraft2 = aircraft("fighter2", [0, 25, 20], [0.05, 0.05, 0.05], mydir, 0)    
         self.aircraft2.setAngleH(180)#0
         
         #load camera
@@ -55,10 +55,12 @@ class World(DirectObject):
         self.keyborad = keyboard(self.aircraft1, self.aircraft2, self.camera1, self.camera2)        
                 
         #load collision
-        self.collision = collision(self.map, self.aircraft1, self.aircraft2, 0)
+        self.collision = collision(self.map, self.aircraft1, self.aircraft2, debug)
                         
         #dynamicObject
         self.objects = dynamicObject(self.collision, self.keyborad, self.aircraft1, self.aircraft2, self.camera1, self.camera2)
+        
+        bomb = self.objects.createBomb(self.aircraft1.getModel(), self.aircraft1.getModel().getHpr(), self.aircraft2)
         
         self.aircraft1.setObjects(self.objects)
         self.aircraft2.setObjects(self.objects)
@@ -108,7 +110,7 @@ class World(DirectObject):
             print self.aircraft2.info()
             
         #self.aircraft1.move()
-        #self.aircraft2.move()
+        self.aircraft2.move()
         self.camera1.move()
         self.camera2.move()
         
