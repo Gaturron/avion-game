@@ -20,22 +20,18 @@ class bomb:
     
     speed = 30
 
-    def __init__(self, model, dir):
+    def __init__(self, model, dir, x = 0, y = 10, z = 0):
         mydir = os.path.dirname(sys.path[0])
         mydir = Filename.fromOsSpecific(mydir).getFullpath()
         mydir = mydir + "/models/bombs/bomb.egg"
         
         self.model = loader.loadModel(mydir)
         self.model.setScale(scale[0], scale[1], scale[2])
-        self.model.setPos(model, 0, 10, 0)
+        self.model.setPos(model, x, y, z)
         self.model.reparentTo(render)
         
         self.model.setHpr(dir)
-        
-        self.delta_x_old = 0
-        self.delta_y_old = 0
-        self.delta_z_old = 0
-        
+                
         self.kill = 0
         self.active = 0
         

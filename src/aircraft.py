@@ -43,6 +43,7 @@ class aircraft:
         self.model.reparentTo(render)
         self.model.clearTexture()
         
+        #texture
         self.myTexture = loader.loadTexture("White_a.png")
         self.myTexture.setWrapU(Texture.WMBorderColor)
         self.myTexture.setWrapV(Texture.WMBorderColor)
@@ -123,7 +124,7 @@ class aircraft:
         p = random.randrange(0, 4)
         r = random.randrange(0, 4)
         
-        self.getModel().setHpr(self.getModel().getH()+h, self.getModel().getP()+p, self.getModel().getR()+r )
+        self.model.setHpr(self.model.getH()+h, self.model.getP()+p, self.model.getR()+r )
     
     def incSpeed(self):
         if(0 < self.speed < range_speed):
@@ -148,7 +149,9 @@ class aircraft:
     
     def setObjects(self, obj):
         self.objects = obj
-    
+        self.bomb1 = self.objects.createBomb(self.model, self.model.getHpr(), 10, 10, 0)
+        self.bomb2 = self.objects.createBomb(self.model, self.model.getHpr(), -10, 10, 0)
+        
     def shoot(self):
         self.objects.createBullet(self.getModel(), self.getModel().getHpr())
             
@@ -158,8 +161,12 @@ class aircraft:
     def move(self):
         if(self.fall):
             self.model.setPos(self.model,0,self.speed, -8)
+            self.bomb1.getModel().setPos(self.model,0,self.speed, -8)
+            self.bomb2.getModel().setPos(self.model,0,self.speed, -8)
         else:
             self.model.setPos(self.model,0,self.speed, 0)
+            self.bomb1.getModel().setPos(self.model,0,self.speed, 0)
+            self.bomb2.getModel().setPos(self.model,0,self.speed, 0)
             
     def info(self):
         return "Class aircraft: "+ str(self.name) +" , "+\

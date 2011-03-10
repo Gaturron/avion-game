@@ -56,9 +56,8 @@ class dynamicObject:
         li = lights(x, y, z)
         taskMgr.add(li.lightShot, "lightShot")
         
-    def createBomb(self, model, hpr, target):
-        self.bomb = bomb(model, hpr)
-        self.bomb.activate(target)
+    def createBomb(self, model, hpr, x = 0, y = 10, z = 0):
+        self.bomb = bomb(model, hpr, x, y, z)
         self.collision.addCollisionToBullet(self.bomb)
     
         self.bombs.append(self.bomb)
@@ -71,6 +70,8 @@ class dynamicObject:
         
         li = lights(x, y, z)
         taskMgr.add(li.lightShot, "lightShot")
+        
+        return self.bomb
     
     def move(self):
         for bullet in self.bullets:

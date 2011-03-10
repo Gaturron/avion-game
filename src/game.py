@@ -60,7 +60,8 @@ class World(DirectObject):
         #dynamicObject
         self.objects = dynamicObject(self.collision, self.keyborad, self.aircraft1, self.aircraft2, self.camera1, self.camera2)
         
-        bomb = self.objects.createBomb(self.aircraft1.getModel(), self.aircraft1.getModel().getHpr(), self.aircraft2)
+        bomb = self.objects.createBomb(self.aircraft1.getModel(), self.aircraft1.getModel().getHpr())
+        bomb.activate(self.aircraft2)
         
         self.aircraft1.setObjects(self.objects)
         self.aircraft2.setObjects(self.objects)
