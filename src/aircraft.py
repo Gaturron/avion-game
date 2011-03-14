@@ -61,6 +61,29 @@ class aircraft:
         #TODO: fixme same texture for both aircrafts 
         self.model.setTexture(ts, self.myTexture)
         
+        self.bomb1= None
+        self.bomb2= None
+        
+        self.target = None
+        
+    def set_target(self, target):
+        self.target = target
+        
+    def shoot_bomb(self):
+        if(str(self.bomb1.getModel().getParent()) != "(empty)"): 
+            x = self.model.getX()
+            y = self.model.getY()
+            z = self.model.getZ()
+            self.objects.create_light(x, y, z)
+            self.bomb1.activate(self.target)
+        else:
+            if(str(self.bomb2.getModel().getParent()) != "(empty)"): 
+                x = self.model.getX()
+                y = self.model.getY()
+                z = self.model.getZ()
+                self.objects.cerate_light(x, y, z)
+                self.bomb2.activate(self.target)
+            
     def move_left(self):
         self.incAngleH()
         if (self.model.getR() > -range_move):
@@ -106,7 +129,7 @@ class aircraft:
     
     def setAngleH(self, ang):
         self.model.setH(ang) 
-    
+        
     def getAngleH(self):
         return self.model.getH()   
     
@@ -149,8 +172,15 @@ class aircraft:
     
     def setObjects(self, obj):
         self.objects = obj
-        self.bomb1 = self.objects.createBomb(self.model, self.model.getHpr(), 10, 10, 0)
-        self.bomb2 = self.objects.createBomb(self.model, self.model.getHpr(), -10, 10, 0)
+        self.bomb1 = self.objects.createBomb(self.model, self.model.getHpr(), 10, 4, -1.5)
+        self.bomb1.getModel().reparentTo(self.model)
+        self.bomb1.getModel().clearTexture()
+        
+        self.bomb2 = self.objects.createBomb(self.model, self.model.getHpr(), -10, 4, -1.5)
+        self.bomb2.getModel().reparentTo(self.model)
+        self.bomb2.getModel().clearTexture()
+        
+        #TODO: fixme why do not clear bombs textures?
         
     def shoot(self):
         self.objects.createBullet(self.getModel(), self.getModel().getHpr())
@@ -159,14 +189,13 @@ class aircraft:
         self.speed = 0
         
     def move(self):
+        
+        print "a: "+str(self.bomb1.getModel().getParent())
+        
         if(self.fall):
             self.model.setPos(self.model,0,self.speed, -8)
-            self.bomb1.getModel().setPos(self.model,0,self.speed, -8)
-            self.bomb2.getModel().setPos(self.model,0,self.speed, -8)
         else:
             self.model.setPos(self.model,0,self.speed, 0)
-            self.bomb1.getModel().setPos(self.model,0,self.speed, 0)
-            self.bomb2.getModel().setPos(self.model,0,self.speed, 0)
             
     def info(self):
         return "Class aircraft: "+ str(self.name) +" , "+\

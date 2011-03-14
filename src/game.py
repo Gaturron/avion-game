@@ -37,11 +37,11 @@ class World(DirectObject):
         mydir = mydir + "/models/scifi fighter/alice-scifi--fighter/fighter.egg"
         
         self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir, 1)    
-        self.aircraft1.setAngleH(0)
+       
+        self.aircraft2 = aircraft("fighter2", [0, 20, 20], [0.05, 0.05, 0.05], mydir, 0)    
         
-        self.aircraft2 = aircraft("fighter2", [0, 25, 20], [0.05, 0.05, 0.05], mydir, 0)    
-        self.aircraft2.setAngleH(180)#0
-        
+        self.aircraft1.set_target(self.aircraft2)
+        self.aircraft2.set_target(self.aircraft1)
         #load camera
         #base.disableMouse()
         self.camera1 = camera(self.aircraft1.getModel(), "cam1")
@@ -60,11 +60,11 @@ class World(DirectObject):
         #dynamicObject
         self.objects = dynamicObject(self.collision, self.keyborad, self.aircraft1, self.aircraft2, self.camera1, self.camera2)
         
-        bomb = self.objects.createBomb(self.aircraft1.getModel(), self.aircraft1.getModel().getHpr())
-        bomb.activate(self.aircraft2)
-        
         self.aircraft1.setObjects(self.objects)
         self.aircraft2.setObjects(self.objects)
+        
+        self.aircraft1.setAngleH(0)
+        self.aircraft2.setAngleH(180)#0
         
         plight = PointLight('plight')
         plnp = render.attachNewNode(plight)

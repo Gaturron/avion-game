@@ -18,6 +18,7 @@ class lights:
         elif (task.time > 0.08):
             if render.hasLight(self.plnp):
                 render.clearLight(self.plnp)
+            self.plnp.detachNode()
             return task.done
         else:
             return task.cont

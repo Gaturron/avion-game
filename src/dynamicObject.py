@@ -28,7 +28,6 @@ class dynamicObject:
     
     def __init__(self, collision, keyboard, aircraft1, aircraft2, camera1, camera2):
         self.bullets = []
-        self.bombs = []
         self.collision = collision
         
         self.aircraft1 = aircraft1
@@ -41,45 +40,36 @@ class dynamicObject:
                 
         #particle system
         base.enableParticles()
-            
+        
+    def create_light(self, x, y, z): 
+        #light
+        li = lights(x, y, z)
+        taskMgr.add(li.lightShot, "lightShot")
+                  
     def createBullet(self, model, hpr):
         self.bullet = bullet(model, hpr)
         self.collision.addCollisionToBullet(self.bullet)
     
         self.bullets.append(self.bullet)
-        
-        #light
+    
         x = model.getX()
         y = model.getY()
         z = model.getZ()
         
-        li = lights(x, y, z)
-        taskMgr.add(li.lightShot, "lightShot")
+        self.create_light(x,y,z)
         
-    def createBomb(self, model, hpr, x = 0, y = 10, z = 0):
+    def createBomb(self, model, hpr, x = 0, y = 0, z = 0):
         self.bomb = bomb(model, hpr, x, y, z)
         self.collision.addCollisionToBullet(self.bomb)
     
-        self.bombs.append(self.bomb)
         self.bullets.append(self.bomb)
-        
-        #light
-        x = model.getX()
-        y = model.getY()
-        z = model.getZ()
-        
-        li = lights(x, y, z)
-        taskMgr.add(li.lightShot, "lightShot")
         
         return self.bomb
     
     def move(self):
         for bullet in self.bullets:
             bullet.move() 
-            
-        for bomb in self.bombs:
-            bomb.move()
-            
+                        
         #aircraft which collide with map must be deleted
         #collision queue
         queue = self.collision.getCollisionsFromAircraft(1)
@@ -160,7 +150,8 @@ class dynamicObject:
                     if(entry.getIntoNodePath().getName() == "cnodeT"):
                         part = particles(x, y, z)
                         taskMgr.add(part.particleSmoke,"parSmoke")
-                                
+                               
+                self.bullets.remove(bullet) 
                 bullet.delete()
                                 
 if(__name__ == "__main__"):

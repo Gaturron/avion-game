@@ -12,7 +12,7 @@ from direct.task import Task
 from particles import *
 
 damage = 20
-scale=[0.005,0.005,0.005]
+scale=[0.08,0.08,0.08]
 time_to_live = 50
 
 class bomb:
@@ -20,14 +20,15 @@ class bomb:
     
     speed = 30
 
-    def __init__(self, model, dir, x = 0, y = 10, z = 0):
+    def __init__(self, model, dir, x = 0, y = 0, z = 0):
         mydir = os.path.dirname(sys.path[0])
         mydir = Filename.fromOsSpecific(mydir).getFullpath()
         mydir = mydir + "/models/bombs/bomb.egg"
         
         self.model = loader.loadModel(mydir)
         self.model.setScale(scale[0], scale[1], scale[2])
-        self.model.setPos(model, x, y, z)
+        self.model.setPos(x, y, z)
+        
         self.model.reparentTo(render)
         
         self.model.setHpr(dir)
@@ -57,7 +58,8 @@ class bomb:
     def delete(self):
         self.kill = 1
         self.model.detachNode()
-    
+        #self.model.removeNode()
+        
     def getModel(self):
         return self.model
     
