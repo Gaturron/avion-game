@@ -23,7 +23,6 @@ class keyboard(DirectObject):
         
         self.aircraft1 = aircraft1
         self.fire = 0
-        self.kill = 0
         
         self.aircraft2 = aircraft2
         self.camera1 = camera1
@@ -75,15 +74,12 @@ class keyboard(DirectObject):
             if (self.keyMap2["fire"]!=0): 
                 if (not self.fire):
                     self.aircraft2.shoot()
-                    self.kill = 0
                     taskMgr.add(self.shoot_bomb,"shoot_bomb") 
                     self.fire = 1
                     
             if (self.keyMap2["fire"]==0): 
                 if (self.fire):
-                    self.kill = 1
                     self.fire = 0
-                    
                 
             if (self.keyMap2["left"] == 0 and self.keyMap2["right"] == 0):
                 self.aircraft2.decAngleR()
@@ -94,10 +90,9 @@ class keyboard(DirectObject):
             if (self.keyMap2["accel"]!=0): self.camera2.moveForward()
             if (self.keyMap2["break"]!=0): self.camera2.moveBackward()
             
-    def shoot_bomb(self, task):
-        if(self.kill): Task.done   
+    def shoot_bomb(self, task): 
         if(task.time > time_shoot_bomb):
-            self.aircraft2.shoot_bomb()
+            if(self.keyMap2["fire"] != 0):self.aircraft2.shoot_bomb()
             return Task.done
         else: 
             return Task.cont

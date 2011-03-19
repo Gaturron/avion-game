@@ -4,8 +4,6 @@ from pandac.PandaModules import *
 from direct.actor import Actor
 from panda3d.core import *
 
-import math
-
 from dynamicObject import *
 
 from particles import *
@@ -34,7 +32,7 @@ class aircraft:
     
     fall = 0
     
-    def __init__(self, name, pos, scale, skin, c):
+    def __init__(self, name, pos, scale, skin):
         self.name = name
         self.skin = skin
         self.model = loader.loadModel(skin)
@@ -44,22 +42,22 @@ class aircraft:
         self.model.clearTexture()
         
         #texture
-        self.myTexture = loader.loadTexture("White_a.png")
-        self.myTexture.setWrapU(Texture.WMBorderColor)
-        self.myTexture.setWrapV(Texture.WMBorderColor)
+        #self.myTexture = loader.loadTexture("White_a.png")
+        #self.myTexture.setWrapU(Texture.WMBorderColor)
+        #self.myTexture.setWrapV(Texture.WMBorderColor)
         
-        ts = TextureStage('ts-'+str(self.name))
-        ts.setMode(TextureStage.MBlend)
+        #ts = TextureStage('ts-'+str(self.name))
+        #ts.setMode(TextureStage.MBlend)
         
-        vec = Vec4(c, 1-c, c, 1)
+        #vec = Vec4(c, 1-c, c, 1)
         
-        ts.setColor(vec)
-        print str(vec)
-        print "real color: "+str(ts.getColor())
-        print "pepe: "+ts.getName()
+        #ts.setColor(vec)
+        #print str(vec)
+        #print "real color: "+str(ts.getColor())
+        #print "pepe: "+ts.getName()
         
         #TODO: fixme same texture for both aircrafts 
-        self.model.setTexture(ts, self.myTexture)
+        #self.model.setTexture(ts, self.myTexture)
         
         self.bomb1= None
         self.bomb2= None
@@ -70,19 +68,25 @@ class aircraft:
         self.target = target
         
     def shoot_bomb(self):
-        if(str(self.bomb1.getModel().getParent()) != "(empty)"): 
+        if(self.bomb1.getModel().getParent() == self.model): 
             x = self.model.getX()
             y = self.model.getY()
             z = self.model.getZ()
             self.objects.create_light(x, y, z)
             self.bomb1.activate(self.target)
+            self.bomb1.getModel().setScale(self.model,0.08,0.08,0.08)
+            self.bomb1.setHpr(self.model.getHpr())
+            self.bomb1.getModel().setPos(self.model, 10, 4, -1.5)
         else:
-            if(str(self.bomb2.getModel().getParent()) != "(empty)"): 
+            if(self.bomb2.getModel().getParent() == self.model): 
                 x = self.model.getX()
                 y = self.model.getY()
                 z = self.model.getZ()
-                self.objects.cerate_light(x, y, z)
+                self.objects.create_light(x, y, z)
                 self.bomb2.activate(self.target)
+                self.bomb2.getModel().setScale(self.model,0.08,0.08,0.08)
+                self.bomb2.setHpr(self.model.getHpr())
+                self.bomb2.getModel().setPos(self.model, -10, 4, -1.5)
             
     def move_left(self):
         self.incAngleH()
@@ -182,6 +186,9 @@ class aircraft:
         
         #TODO: fixme why do not clear bombs textures?
         
+        #rocket light 
+        self.objects.createFlasherFromModel(self.model,0,-25,0)
+        
     def shoot(self):
         self.objects.createBullet(self.getModel(), self.getModel().getHpr())
             
@@ -190,7 +197,7 @@ class aircraft:
         
     def move(self):
         
-        print "a: "+str(self.bomb1.getModel().getParent())
+        #print "a: "+str(self.bomb1.getModel().getParent())
         
         if(self.fall):
             self.model.setPos(self.model,0,self.speed, -8)

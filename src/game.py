@@ -36,9 +36,9 @@ class World(DirectObject):
         mydir = Filename.fromOsSpecific(mydir).getFullpath()
         mydir = mydir + "/models/scifi fighter/alice-scifi--fighter/fighter.egg"
         
-        self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir, 1)    
+        self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir)    
        
-        self.aircraft2 = aircraft("fighter2", [0, 20, 20], [0.05, 0.05, 0.05], mydir, 0)    
+        self.aircraft2 = aircraft("fighter2", [0, 8, 20], [0.05, 0.05, 0.05], mydir)    
         
         self.aircraft1.set_target(self.aircraft2)
         self.aircraft2.set_target(self.aircraft1)
@@ -59,7 +59,7 @@ class World(DirectObject):
                         
         #dynamicObject
         self.objects = dynamicObject(self.collision, self.keyborad, self.aircraft1, self.aircraft2, self.camera1, self.camera2)
-        
+                
         self.aircraft1.setObjects(self.objects)
         self.aircraft2.setObjects(self.objects)
         
@@ -83,6 +83,8 @@ class World(DirectObject):
         render.setFog(linfog)
         
         #taskMgr.popupControls()
+        
+        #self.aircraft2.getModel().place()
         
         taskMgr.add(self.main,"Main")
       
@@ -110,8 +112,8 @@ class World(DirectObject):
             print self.aircraft1.info()
             print self.aircraft2.info()
             
-        #self.aircraft1.move()
-        self.aircraft2.move()
+        self.aircraft1.move()
+        #self.aircraft2.move()
         self.camera1.move()
         self.camera2.move()
         

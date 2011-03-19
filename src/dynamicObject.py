@@ -45,6 +45,17 @@ class dynamicObject:
         #light
         li = lights(x, y, z)
         taskMgr.add(li.lightShot, "lightShot")
+        
+    def createFlasher(self, x, y, z):
+        #light
+        li = lights(x, y, z)
+        taskMgr.add(li.flasher, "flasher")
+        
+    def createFlasherFromModel(self, model, x, y, z):
+        #light
+        li = lights(x, y, z)
+        li.setPos(model, x, y, z)
+        taskMgr.add(li.flasher, "flasher")
                   
     def createBullet(self, model, hpr):
         self.bullet = bullet(model, hpr)
