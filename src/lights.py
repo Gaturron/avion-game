@@ -5,11 +5,31 @@ import math
 class lights:
     "class modeling lights"
     
-    def __init__(self, x, y, z):
+    def __init__(self):
+        self.flashers = []
+        taskMgr.add(self.flasher, "flasher")
+    
+    def createLightShot(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
+        taskMgr.add(self.lightShot, "lightShot")
+                
+    def createFlasherFromModel(self, model, name, x, y, z):
+       
+        self.flasher = render.attachNewNode(PointLight('flasher'+name))
+        self.flasher.reparentTo(model)
+        self.flasher.setPos(model, x, y, z)
+        self.flasher.node().setColor( Vec4( .1, 0, 0, 1 ) )
+        self.flasher.node().setAttenuation( Vec3( .1, 0.04, 0.0 ) ) 
+        render.setLight(self.flasher)
+               
+        self.flashers.append([self.flasher, name, "on"])
         
+    def destroyFlasherFromModel(self, name):    
+        for flasher in self.flashers:
+            if (flasher[1] == name): flasher[2] = "off"
+    
     def setPos(self, model, x, y, z):
         self.model = model
         self.x = x
@@ -31,16 +51,12 @@ class lights:
             return task.cont
         
     def flasher(self, task):
-        if (task.time == 0):
-            self.flasher = render.attachNewNode(PointLight('flasher'))
-            self.flasher.reparentTo(self.model)
-            self.flasher.setPos(self.model, self.x, self.y, self.z)
-            self.flasher.node().setColor( Vec4( .1, 0, 0, 1 ) )
-            self.flasher.node().setAttenuation( Vec3( .1, 0.04, 0.0 ) ) 
-            render.setLight(self.flasher)
-            return task.cont
-        else:
-            return task.cont    
+        for flasher in self.flashers:
+            if(flasher[2] == "off"): 
+                if render.hasLight(flasher[0]):
+                    render.clearLight(flasher[0])
+                flasher[0].detachNode()
+        return task.cont
         
 if (__name__ == "__main__"):
     print lights.__doc__

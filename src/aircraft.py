@@ -187,13 +187,18 @@ class aircraft:
         #TODO: fixme why do not clear bombs textures?
         
         #rocket light 
-        self.objects.createFlasherFromModel(self.model,0,-25,0)
+        self.objects.createFlasherFromModel(self.model, self.name, 0, -25, 0)
         
     def shoot(self):
         self.objects.createBullet(self.getModel(), self.getModel().getHpr())
             
     def stop(self):
         self.speed = 0
+        
+    def destroy(self):
+        self.stop()
+        self.objects.destroyFlasherFromModel(self.name)
+        self.model.detachNode()
         
     def move(self):
         

@@ -37,25 +37,23 @@ class dynamicObject:
         self.camera2 = camera2
         
         self.keyboard = keyboard
+        
+        self.lights = lights()
                 
         #particle system
         base.enableParticles()
         
-    def create_light(self, x, y, z): 
-        #light
-        li = lights(x, y, z)
-        taskMgr.add(li.lightShot, "lightShot")
+    def create_light(self, x, y, z):
+        self.lights.createLightShot(x, y, z)
         
     def createFlasher(self, x, y, z):
-        #light
-        li = lights(x, y, z)
-        taskMgr.add(li.flasher, "flasher")
+        self.lights.createFlasher(x, y, z)
         
-    def createFlasherFromModel(self, model, x, y, z):
-        #light
-        li = lights(x, y, z)
-        li.setPos(model, x, y, z)
-        taskMgr.add(li.flasher, "flasher")
+    def createFlasherFromModel(self, model, name, x, y, z):
+        self.lights.createFlasherFromModel(model, name, x, y, z)
+        
+    def destroyFlasherFromModel(self, model):
+        self.lights.destroyFlasherFromModel(model)
                   
     def createBullet(self, model, hpr):
         self.bullet = bullet(model, hpr)
@@ -90,8 +88,8 @@ class dynamicObject:
             #collision with map
             if(entry.getIntoNodePath().getName() == "" or
                entry.getIntoNodePath().getName() == "cnode2"):
-                self.aircraft1.stop()
-                self.aircraft1.getModel().detachNode()
+                self.aircraft1.destroy()
+                self.destroyFlasherFromModel(self.aircraft1.getModel())
                 self.keyboard.disablePlayer(1)
                 self.camera1.setGoWith(0)
                 x = self.aircraft1.getModel().getX()
@@ -108,8 +106,8 @@ class dynamicObject:
             #collision with map
             if(entry.getIntoNodePath().getName() == "" or
                entry.getIntoNodePath().getName() == "cnode1"):
-                self.aircraft2.stop()
-                self.aircraft2.getModel().detachNode()
+                self.aircraft2.destroy()
+                self.destroyFlasherFromModel(self.aircraft2.getModel())
                 self.keyboard.disablePlayer(2)
                 self.camera2.setGoWith(0)
                 x = self.aircraft2.getModel().getX()

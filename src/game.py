@@ -38,7 +38,7 @@ class World(DirectObject):
         
         self.aircraft1 = aircraft("fighter1", [0, 0, 20], [0.05, 0.05, 0.05], mydir)    
        
-        self.aircraft2 = aircraft("fighter2", [0, 8, 20], [0.05, 0.05, 0.05], mydir)    
+        self.aircraft2 = aircraft("fighter2", [0, 20, 20], [0.05, 0.05, 0.05], mydir)    
         
         self.aircraft1.set_target(self.aircraft2)
         self.aircraft2.set_target(self.aircraft1)
@@ -113,7 +113,7 @@ class World(DirectObject):
             print self.aircraft2.info()
             
         self.aircraft1.move()
-        #self.aircraft2.move()
+        self.aircraft2.move()
         self.camera1.move()
         self.camera2.move()
         
