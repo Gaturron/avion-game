@@ -1,11 +1,11 @@
 import direct.directbase.DirectStart
-from panda3d.physics import BaseParticleEmitter,BaseParticleRenderer
-from panda3d.physics import PointParticleFactory,SpriteParticleRenderer
-from panda3d.physics import LinearNoiseForce,DiscEmitter
-from panda3d.core import TextNode
-from panda3d.core import AmbientLight,DirectionalLight
-from panda3d.core import Point3,Vec3,Vec4
-from panda3d.core import Filename
+from pandac.PandaModules import BaseParticleEmitter,BaseParticleRenderer
+from pandac.PandaModules import PointParticleFactory,SpriteParticleRenderer
+from pandac.PandaModules import LinearNoiseForce,DiscEmitter
+from pandac.PandaModules import TextNode
+from pandac.PandaModules import AmbientLight,DirectionalLight
+from pandac.PandaModules import Point3,Vec3,Vec4
+from pandac.PandaModules import Filename
 from direct.particles.Particles import Particles
 from direct.particles.ParticleEffect import ParticleEffect
 from direct.particles.ForceGroup import ForceGroup
@@ -18,6 +18,7 @@ class particles:
     
     def __init__(self, x, y, z):
         
+        #TODO: solo cargar lo que se va a usar en ese momento, no cargar todos los archivos para solo usar uno
         self.smokering = ParticleEffect()
         self.smokering.loadConfig(Filename('smokering.ptf'))
         self.smoke = ParticleEffect()
@@ -25,7 +26,9 @@ class particles:
         self.smoke2 = ParticleEffect()
         self.smoke2.loadConfig(Filename('smoke2.ptf'))
         self.dust = ParticleEffect()
-        self.dust.loadConfig(Filename('dust.ptf'))      
+        self.dust.loadConfig(Filename('dust.ptf'))  
+        self.steam = ParticleEffect()
+        self.steam.loadConfig(Filename('steam.ptf'))
         
         self.setPos(x, y, z)
     
@@ -106,6 +109,14 @@ class particles:
     
     def setPosSmokeRocket(self, model):
         self.smoke2.setPos(model, 0,-5, 2)
+        
+    def particleSteam(self, model, start):
+        if(start):
+            self.steam.enable()
+            self.steam.start(model, render)
+        else:
+            self.steam.disable()
+            self.steam.softStop()
         
 if (__name__ == "__main__"):
     print particles.__doc__

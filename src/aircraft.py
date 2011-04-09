@@ -2,7 +2,7 @@ import random
 import direct.directbase.DirectStart
 from pandac.PandaModules import *
 from direct.actor import Actor
-from panda3d.core import *
+from pandac.PandaModules import *
 
 from dynamicObject import *
 

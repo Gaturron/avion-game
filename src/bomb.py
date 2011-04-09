@@ -15,7 +15,7 @@ from particles import *
 
 damage = 20
 scale=[0.08,0.08,0.08]
-time_to_live = 50000
+time_to_live = 100
 
 class bomb:
     "class modeling the bombs"
@@ -37,6 +37,7 @@ class bomb:
         self.active = 0
         self.timeGoStraight=0
         self.deltaPos = [0,0,0]
+        self.particles = particles(x,y,z)
         
     #procedure to destroy
     def kill_myself(self, task):
@@ -56,11 +57,13 @@ class bomb:
         self.target = target
         #self.model.detachNode()
         self.model.reparentTo(render)
+        self.particles.particleSteam(self.model, 1)
         taskMgr.add(self.kill_myself, "kill_myself")
         self.active = 1
             
     def delete(self):
         self.kill = 1
+        self.particles.particleSteam(self.model, 0)
         self.model.detachNode()
         #self.model.removeNode()
         

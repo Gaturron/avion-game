@@ -6,7 +6,7 @@ Created on 07/01/2011
 
 from direct.showbase.ShowBase import ShowBase
 import direct.directbase.DirectStart
-from panda3d.core import *
+from pandac.PandaModules import *
 
 radius = 10
 

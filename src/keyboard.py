@@ -91,6 +91,7 @@ class keyboard(DirectObject):
             if (self.keyMap2["break"]!=0): self.camera2.moveBackward()
             
     def shoot_bomb(self, task): 
+        if(self.keyMap2["fire"] == 0): return Task.done
         if(task.time > time_shoot_bomb):
             if(self.keyMap2["fire"] != 0):self.aircraft2.shoot_bomb()
             return Task.done

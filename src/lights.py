@@ -38,7 +38,7 @@ class lights:
         
     def lightShot(self, task):
         if (task.time == 0):
-            self.plnp = render.attachNewNode(PointLight('plight'))
+            self.plnp = render.attachNewNode(PointLight('plight'+str(self.x)+str(self.y)+str(self.z)))
             self.plnp.setPos(self.x, self.y, self.z)
             render.setLight(self.plnp)
             return task.cont

@@ -58,7 +58,7 @@ class World(DirectObject):
         self.collision = collision(self.map, self.aircraft1, self.aircraft2, debug)
                         
         #dynamicObject
-        self.objects = dynamicObject(self.collision, self.keyborad, self.aircraft1, self.aircraft2, self.camera1, self.camera2)
+        self.objects = dynamicObject(self.collision, self.keyborad, self.aircraft1, self.aircraft2, self.camera1, self.camera2, self.map)
                 
         self.aircraft1.setObjects(self.objects)
         self.aircraft2.setObjects(self.objects)
@@ -112,7 +112,7 @@ class World(DirectObject):
             print self.aircraft1.info()
             print self.aircraft2.info()
             
-        self.aircraft1.move()
+        #self.aircraft1.move()
         self.aircraft2.move()
         self.camera1.move()
         self.camera2.move()

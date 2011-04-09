@@ -4,13 +4,13 @@ Created on 10/01/2011
 @author: fernando
 '''
 import direct.directbase.DirectStart
-from panda3d.physics import BaseParticleEmitter,BaseParticleRenderer
-from panda3d.physics import PointParticleFactory,SpriteParticleRenderer
-from panda3d.physics import LinearNoiseForce,DiscEmitter
-from panda3d.core import TextNode
-from panda3d.core import AmbientLight,DirectionalLight
-from panda3d.core import Point3,Vec3,Vec4
-from panda3d.core import Filename
+from pandac.PandaModules import BaseParticleEmitter,BaseParticleRenderer
+from pandac.PandaModules import PointParticleFactory,SpriteParticleRenderer
+from pandac.PandaModules import LinearNoiseForce,DiscEmitter
+from pandac.PandaModules import TextNode
+from pandac.PandaModules import AmbientLight,DirectionalLight
+from pandac.PandaModules import Point3,Vec3,Vec4
+from pandac.PandaModules import Filename
 from direct.particles.Particles import Particles
 from direct.particles.ParticleEffect import ParticleEffect
 from direct.particles.ForceGroup import ForceGroup
@@ -26,12 +26,14 @@ from lights import *
 class dynamicObject:
     "class modeling dynamics objects"
     
-    def __init__(self, collision, keyboard, aircraft1, aircraft2, camera1, camera2):
+    def __init__(self, collision, keyboard, aircraft1, aircraft2, camera1, camera2, map):
         self.bullets = []
         self.collision = collision
         
         self.aircraft1 = aircraft1
         self.aircraft2 = aircraft2 
+        
+        self.map = map
         
         self.camera1 = camera1
         self.camera2 = camera2
@@ -98,6 +100,10 @@ class dynamicObject:
                 part = particles(x,y,z)
                 taskMgr.add(part.particleSmokering,"parSmokering") 
                 
+            if(entry.getIntoNodePath().getName() == "cnodeI"):
+                self.aircraft1.getModel().lookAt(self.map)
+                self.aircraft1.shake()
+                
         #collision queue        
         queue = self.collision.getCollisionsFromAircraft(2)
         for i in range(queue.getNumEntries()):
@@ -116,6 +122,10 @@ class dynamicObject:
                 part = particles(x, y, z)
                 taskMgr.add(part.particleSmokering,"parSmokering")
             
+            if(entry.getIntoNodePath().getName() == "cnodeI"):
+                self.aircraft2.getModel().lookAt(self.map.getModel())
+                self.aircraft2.shake()
+                
         #bullet which collide with something must be deleted
         for bullet in self.bullets:
             if (self.collision.getNumCollisionsFromBullet(bullet) != 0): 
@@ -123,6 +133,8 @@ class dynamicObject:
                 x = bullet.getModel().getX()
                 y = bullet.getModel().getY()
                 z = bullet.getModel().getZ()
+                
+                #self.create_light(x,y,z)
                 
                 val = bullet.getDamage()
                                 
