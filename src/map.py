@@ -8,13 +8,20 @@ class map:
     name = "no name"
     skin = ""
     
-    def __init__(self, name, pos, scale, skin):
+    def __init__(self, name, pos, scale, skin, sky, stars):
         self.name = name
         self.skin = skin
         self.model = loader.loadModel(skin)   
         self.model.setPos(pos[0], pos[1], pos[2])
         self.model.setScale(scale[0], scale[1], scale[2])
         self.model.reparentTo(render)
+        
+        self.sky = loader.loadModel(sky)
+        self.sky_tex = loader.loadTexture(stars)
+        self.sky.setTexture(self.sky_tex, 1)
+        self.sky.setScale(scale[0]+100, scale[1]+100, scale[2]+100)
+        self.sky.setPos(pos[0], pos[1], pos[2])
+        self.sky.reparentTo(render)
         
     def setPosition(self, pos):
         self.model.setPos(pos)    

@@ -27,9 +27,11 @@ class World(DirectObject):
         #Load the first environment model
         mydir = os.path.dirname(sys.path[0])
         mydir = Filename.fromOsSpecific(mydir).getFullpath()
-        mydir = mydir + "/models/scenario/chocolateterrain.egg"
+        mydirMap = mydir + "/models/scenario/chocolateterrain.egg"
+        mydirSky = mydir + "/models/scenario/skysphere.egg.pz"
+        mydirStars = mydir + "/models/scenario/stars.jpg"
         #mydir = mydir + "/models/scenario/scene1.egg"
-        self.map = map("my map", [0, 0, 0], [0.25, 0.25, 0.25], mydir)
+        self.map = map("my map", [0, 0, 0], [0.25, 0.25, 0.25], mydirMap, mydirSky, mydirStars)
                 
         #Load aircraft
         mydir = os.path.dirname(sys.path[0])
