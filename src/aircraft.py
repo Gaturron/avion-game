@@ -6,8 +6,6 @@ from pandac.PandaModules import *
 
 from dynamicObject import *
 
-from particles import *
-
 #ranges and deltas
 range_move = 55
 delta_move = 5

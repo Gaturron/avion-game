@@ -98,7 +98,7 @@ class dynamicObject:
                 y = self.aircraft1.getModel().getY()
                 z = self.aircraft1.getModel().getZ()
                 part = particles(x,y,z)
-                taskMgr.add(part.particleSmokering,"parSmokering") 
+                part.taskSmokering() 
                 
             if(entry.getIntoNodePath().getName() == "cnodeI"):
                 self.aircraft1.getModel().lookAt(self.map)
@@ -120,7 +120,7 @@ class dynamicObject:
                 y = self.aircraft2.getModel().getY()
                 z = self.aircraft2.getModel().getZ()
                 part = particles(x, y, z)
-                taskMgr.add(part.particleSmokering,"parSmokering")
+                part.taskSmokering()
             
             if(entry.getIntoNodePath().getName() == "cnodeI"):
                 self.aircraft2.getModel().lookAt(self.map.getModel())
@@ -146,14 +146,14 @@ class dynamicObject:
                     #collision with plane
                     if(entry.getIntoNodePath().getName() == "cnode1"):
                         part = particles(x, y, z)
-                        taskMgr.add(part.particleSmoke,"parSmoke")
+                        part.taskSmoke()
                         
                         self.aircraft1.decPower(val)
                         self.aircraft1.shake()
                         
                     if(entry.getIntoNodePath().getName() == "cnode2"):
                         part = particles(x, y, z)
-                        taskMgr.add(part.particleSmoke,"parSmoke")
+                        part.taskSmoke()
                         
                         self.aircraft2.decPower(val)
                         self.aircraft2.shake()
@@ -165,12 +165,12 @@ class dynamicObject:
                     #collision with map
                     if(entry.getIntoNodePath().getName() == ""):
                         part = particles(x, y, z)
-                        taskMgr.add(part.particleDust,"parDust")
+                        part.taskDust()
                         
                     #collision with bullet
                     if(entry.getIntoNodePath().getName() == "cnodeT"):
                         part = particles(x, y, z)
-                        taskMgr.add(part.particleSmoke,"parSmoke")
+                        part.taskSmoke()
                                
                 self.bullets.remove(bullet) 
                 bullet.delete()

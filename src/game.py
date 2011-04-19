@@ -88,6 +88,8 @@ class World(DirectObject):
         
         #self.aircraft2.getModel().place()
         
+        base.setFrameRateMeter(True)
+        
         taskMgr.add(self.main,"Main")
       
     def main(self, task):
@@ -120,11 +122,7 @@ class World(DirectObject):
         self.camera2.move()
         
         self.objects.move()
-        
-        #part = particles(0, 0, 0)
-        #part.setPosSmokeRocket(self.aircraft2.getModel())
-        #taskMgr.add(part.particleSmoke2,"parSmoker2")
-        
+                
         if(debug): 
             print("objects: "+ str(render.ls()) ) 
        

@@ -38,6 +38,7 @@ class bomb:
         self.timeGoStraight=0
         self.deltaPos = [0,0,0]
         self.particles = particles(x,y,z)
+        self.particles.setSteam()
         
     #procedure to destroy
     def kill_myself(self, task):
@@ -48,7 +49,7 @@ class bomb:
             y = self.model.getY()
             z = self.model.getZ() 
             part = particles(x,y,z)
-            taskMgr.add(part.particleSmoke,"parSmoke") 
+            part.taskSmoke()
             return Task.done
         else: 
             return Task.cont
